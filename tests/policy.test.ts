@@ -1,0 +1,11 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import {compilePolicy,evaluate} from "../lib/policy";
+const base="Let my agent automatically spend up to ₹2,000 on groceries from trusted merchants. Electronics require approval. Never let autonomous spending exceed ₹5,000 per transaction and ₹25,000 per month.";
+const tx=(overrides:any={})=>({label:"test",merchant:"FreshMart",category:"groceries",amount:1280,riskScore:10,requiresApproval:false,...overrides});
+test("safe trusted grocery transaction is ALLOW",()=>{const p=compilePolicy(base);assert.equal(evaluate(tx(),p).decision,"ALLOW")});
+test("electronics requiring approval becomes REVIEW",()=>{const p=compilePolicy(base);assert.equal(evaluate(tx({merchant:"TechHub",category:"electronics",amount:1800}),p).decision,"REVIEW")});
+test("transaction above absolute cap is BLOCK",()=>{const p=compilePolicy(base);assert.equal(evaluate(tx({merchant:"TechHub",category:"electronics",amount:12999}),p).decision,"BLOCK")});
+test("high risk transaction is BLOCK",()=>{const p=compilePolicy(base);assert.equal(evaluate(tx({riskScore:91}),p).decision,"BLOCK")});
+test("unknown merchant above review floor is REVIEW",()=>{const p=compilePolicy(base);assert.equal(evaluate(tx({merchant:"UnknownStore",amount:3200}),p).decision,"REVIEW")});
+test("monthly budget violation is BLOCK",()=>{const p=compilePolicy(base);assert.equal(evaluate(tx({amount:1800}),p,24000).decision,"BLOCK")});
