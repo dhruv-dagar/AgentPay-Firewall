@@ -149,6 +149,19 @@ The built-in simulation evaluates 120 synthetic transactions under the example p
 
 These figures describe the included synthetic test policy and dataset; they are not production fraud-detection benchmarks.
 
+## Automated tests
+
+The deterministic authorization layer is covered by Node test cases for safe approvals, human-review gates, absolute transaction caps, risk thresholds, monthly budget violations, explicitly blocked categories, and precedence of hard safety failures over approval requests.
+
+Run locally with:
+
+```bash
+npm install
+npm test
+```
+
+GitHub Actions also runs the test suite and production build on pushes to `main` and pull requests.
+
 ## Tech stack
 
 - **Frontend:** Next.js 14, React, TypeScript, CSS
@@ -174,6 +187,11 @@ app/
   page.tsx             # application UI
 lib/
   policy.ts            # deterministic policy compiler/evaluator
+tests/
+  policy.test.ts       # authorization-layer tests
+docs/
+  ARCHITECTURE.md      # system architecture and lifecycle
+  SECURITY.md          # threat model and security controls
 ```
 
 ## Running locally
@@ -219,7 +237,7 @@ npm run build
 npm start
 ```
 
-## Recommended demo flow
+## Recommended project walkthrough
 
 1. Show the natural-language policy and its interpretation.
 2. Run a safe grocery transaction → `ALLOW` → Razorpay Test Mode order.
@@ -228,12 +246,12 @@ npm start
 5. Run the firewall integrity test → forged frontend `ALLOW` is rejected by the server.
 6. Run the 120-transaction simulation and explain the measured metrics.
 
-## Limitations and next steps
+## Limitations and production roadmap
 
-This is a hackathon/research prototype rather than a production payment authorization platform. The audit store is bounded in-memory storage for demonstration, the policy language is intentionally limited, and the simulation uses synthetic data.
+This is a portfolio/research prototype rather than a production payment authorization platform. The audit store is bounded in-memory storage for demonstration, the policy language is intentionally limited, and the simulation uses synthetic data.
 
-A production version would add persistent tamper-evident audit storage, authenticated agent identities, stronger policy schemas/versioning, persistent budget accounting, replay/idempotency controls, comprehensive automated security testing, observability, and production-grade secret management.
+A production version would add persistent tamper-evident audit storage, authenticated agent identities, stronger policy schemas/versioning, persistent budget accounting, replay/idempotency controls, comprehensive automated security testing, observability, rate limiting, and production-grade secret management.
 
 ## License
 
-This project is provided for educational and hackathon demonstration purposes.
+This project is provided as an educational portfolio and research prototype.
