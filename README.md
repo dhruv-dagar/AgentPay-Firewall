@@ -2,6 +2,8 @@
 
 > **AI interprets intent. Deterministic controls authorize money.**
 
+**[🚀 Live Demo](https://agent-pay-firewall-54xa-nine.vercel.app/) · [💻 GitHub](https://github.com/dhruv-dagar/AgentPay-Firewall)**
+
 AgentPay Firewall is a server-side financial control plane for autonomous AI payment agents. It sits between an AI agent and a payment API, translating natural-language spending policies into enforceable controls and deciding whether each transaction is **ALLOW**, **REVIEW**, or **BLOCK** before payment execution.
 
 ## Why this exists
@@ -53,6 +55,11 @@ AI / deterministic policy interpretation
 **The AI never gets authority to move the money.**
 
 The browser is not trusted either. Before a Razorpay order is created, the server independently compiles the policy and evaluates the transaction.
+
+## 🔗 Links
+
+- **Live Demo:** https://agent-pay-firewall-54xa-nine.vercel.app/
+- **Source Code:** https://github.com/dhruv-dagar/AgentPay-Firewall
 
 ## Key capabilities
 
